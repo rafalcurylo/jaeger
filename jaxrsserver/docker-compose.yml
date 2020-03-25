@@ -1,0 +1,15 @@
+version: '2'
+
+services:
+    jaxrs-server-1:
+      image: jaxserver4jaeger:1.1
+      ports:
+        - "8081:8080"
+
+
+    jaxrs-client-1:
+      image: jaxclient4jaeger:1.1
+      ports:
+        - "8080:8080"
+      depends_on:
+        - jaxrs-server-1
