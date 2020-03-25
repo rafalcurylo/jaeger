@@ -1,0 +1,23 @@
+1. build server application and create a docker image
+cd jaeger/jaxrsserver
+mvn clean install
+docker image build -t jaxserver4jaeger:1.0 .
+
+2. build client application and create a docker image
+cd jaeger/jaxrsclient
+mvn clean install
+docker image build -t jaxclient4jaeger:1.0 .
+
+3. run
+cd jaeger
+docker-compose up
+
+4. verify REST server
+http://localhost:8081/jaxrs-server-4jaeger/resources/people
+
+5. verify client
+http://localhost:8080/jaxrs-client-4jaeger/index.jsp (static html)
+http://localhost:8080/jaxrs-client-4jaeger/resources/people (call server via REST)
+
+6. verify jaeger-query
+http://localhost:16686/

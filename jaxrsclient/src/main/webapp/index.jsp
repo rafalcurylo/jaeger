@@ -1,0 +1,1 @@
+hello from jaxrs-client-4jaeger
