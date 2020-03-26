@@ -3,13 +3,13 @@ Check docker-compose.yml for proper image version (of jaxserver4jaeger:X.Y)
 
 cd jaeger/jaxrsserver
 mvn clean install
-docker image build -t jaxserver4jaeger:1.5 .
+docker image build -t rafalcurylo/jaxserver4jaeger:1.6 .
 
 2. build client application and create a docker image
 Check docker-compose.yml for proper image version (of jaxclient4jaeger:X.Y)
 cd jaeger/jaxrsclient
 mvn clean install
-docker image build -t jaxclient4jaeger:1.5 .
+docker image build -t rafalcurylo/jaxclient4jaeger:1.6 .
 
 3. run
 cd jaeger
