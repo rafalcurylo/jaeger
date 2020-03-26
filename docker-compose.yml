@@ -44,14 +44,14 @@ services:
         - cassandra
 
     jaxrs-server:
-      image: jaxserver4jaeger:1.0
+      image: jaxserver4jaeger:1.5
       ports:
         - "8081:8080"
       depends_on:
         - jaeger-agent
 
     jaxrs-client:
-      image: jaxclient4jaeger:1.2
+      image: jaxclient4jaeger:1.5
       ports:
         - "8080:8080"
       depends_on:

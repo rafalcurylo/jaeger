@@ -2,7 +2,6 @@ package com.rafalcurylo.ee8.jaxrs.client;
 
 import io.opentracing.Span;
 import io.opentracing.Tracer;
-import lombok.extern.log4j.Log4j;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -13,7 +12,6 @@ import javax.ws.rs.core.GenericType;
 import java.util.List;
 
 @Path("people")
-@Log4j
 public class PeopleClient {
 
     @GET
@@ -21,13 +19,14 @@ public class PeopleClient {
     public List<Person> getAll() {
 
         Client client = ClientBuilder.newClient();
+        System.out.println("calling server");
         List<Person> list = client.target("http://jaxrs-server:8080/jaxrs-server-4jaeger")
                 .path("resources/people")
                 .queryParam("sd", "sd")
                 .request()
                 .get(new GenericType<List<Person>>() {});
 
-        log.debug("getAll");
+        System.out.println("got results:" + list.size());
 
         Tracer tracer = TracingUtil.initTracer("jaxrs-client");
         Tracer.SpanBuilder builder = tracer.buildSpan("getAll");
