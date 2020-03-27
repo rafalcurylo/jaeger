@@ -1,15 +1,36 @@
+------------------------------------------
+HOW TO: run with docker-compose.
+All used images are available on dockerhub.
+
+1. cd jaeger
+docker-compose up
+
+2. verify REST server
+http://localhost:8081/jaxrs-server-4jaeger/resources/people
+
+3. verify client
+http://localhost:8080/jaxrs-client-4jaeger/index.jsp (static html)
+http://localhost:8080/jaxrs-client-4jaeger/resources/people (call server via REST)
+
+4. verify jaeger-query
+http://localhost:16686/
+
+
+------------------------------------------
+HOW TO: build client-server and run.
+
 1. build server application and create a docker image
 Check docker-compose.yml for proper image version (of jaxserver4jaeger:X.Y)
 
 cd jaeger/jaxrsserver
 mvn clean install
-docker image build -t jaxserver4jaeger:1.5 .
+docker image build -t rafalcurylo/jaxserver4jaeger:1.6 .
 
 2. build client application and create a docker image
 Check docker-compose.yml for proper image version (of jaxclient4jaeger:X.Y)
 cd jaeger/jaxrsclient
 mvn clean install
-docker image build -t jaxclient4jaeger:1.5 .
+docker image build -t rafalcurylo/jaxclient4jaeger:1.6 .
 
 3. run
 cd jaeger
