@@ -1,6 +1,6 @@
 ------------------------------------------
 HOW TO: run with docker-compose.
-All user images are available on dockerhub.
+All used images are available on dockerhub.
 
 1. cd jaeger
 docker-compose up
