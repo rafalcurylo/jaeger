@@ -1,0 +1,45 @@
+Amazon Elastic Container Service (ECS)
+
+In AWS:
+-create IAM user: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/get-set-up-for-amazon-ecs.html
+-create IAM user's access keys https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html
+
+https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-cli-tutorial-fargate.html
+
+In personal linux:
+1. install aws cli
+  curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+  unzip awscliv2.zip
+  sudo ./aws/install
+  aws --version
+2. install ecs cli
+  sudo curl -o /usr/local/bin/ecs-cli https://amazon-ecs-cli.s3.amazonaws.com/ecs-cli-linux-amd64-latest
+  sudo chmod +x /usr/local/bin/ecs-cli
+  ecs-cli --version
+3. configure ecs cli
+  ecs-cli configure profile --profile-name jaeger --access-key ... --secret-key ...
+  ecs-cli configure --cluster jaegercluster --default-launch-type FARGATE --region eu-central-1 --config-name jaegerconfig
+4. Create the Task Execution IAM Role
+5. ecs-cli up --cluster-config jaegerconfig --ecs-profile jaeger
+
+INFO[0000] Created cluster                               cluster=jaegercluster region=eu-central-1
+INFO[0001] Waiting for your cluster resources to be created...
+INFO[0001] Cloudformation stack status                   stackStatus=CREATE_IN_PROGRESS
+VPC created: vpc-...
+Subnet created: subnet-...
+Subnet created: subnet-...
+Cluster creation succeeded.
+
+aws configure
+aws ec2 describe-security-groups --filters Name=vpc-id,Values=vpc-.. --region eu-central-1
+group id "GroupId": "sg-..."
+
+aws ec2 authorize-security-group-ingress --group-id sg-... --protocol tcp --port 8080 --cidr 0.0.0.0/0 --region eu-central-1
+aws ec2 authorize-security-group-ingress --group-id sg-... --protocol tcp --port 8081 --cidr 0.0.0.0/0 --region eu-central-1
+aws ec2 authorize-security-group-ingress --group-id sg-... --protocol tcp --port 16686 --cidr 0.0.0.0/0 --region eu-central-1
+
+ecs-cli compose --project-name jaeger service up --create-log-groups --cluster-config jaegerconfig --ecs-profile jaeger
+
+6. errors: docker-compose.yml - ecs-cli claims that depends_on is not supported and also exposed ports don't match with authorize-security-group-ingress
+
+
