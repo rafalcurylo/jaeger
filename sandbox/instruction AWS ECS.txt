@@ -38,6 +38,9 @@ aws ec2 authorize-security-group-ingress --group-id sg-... --protocol tcp --port
 aws ec2 authorize-security-group-ingress --group-id sg-... --protocol tcp --port 8081 --cidr 0.0.0.0/0 --region eu-central-1
 aws ec2 authorize-security-group-ingress --group-id sg-... --protocol tcp --port 16686 --cidr 0.0.0.0/0 --region eu-central-1
 
+Clone git repository to get docker-compose.yml file.
+Create a ecs-params.yml (see https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-cli-tutorial-fargate.html)
+
 ecs-cli compose --project-name jaeger service up --create-log-groups --cluster-config jaegerconfig --ecs-profile jaeger
 
 6. errors: docker-compose.yml - ecs-cli claims that depends_on is not supported and also exposed ports don't match with authorize-security-group-ingress
