@@ -1,0 +1,29 @@
+Based on https://docs.microsoft.com/en-us/azure/app-service/containers/quickstart-multi-container
+
+AppServices limitation: only ports 80 and 443 are exposed.
+
+Full jaeger (with client-server) failed to run.
+
+I was able to run only client-server via app services with docker compose, however, ports were not exposed as I wanted.
+Server app was exposed on 80, instead of client app, as I configured.
+
+1. all services
+az group create --name myResourceGroup --location "West Europe"
+az appservice plan create --name myAppServicePlan --resource-group myResourceGroup --sku S1 --is-linux
+git clone https://github.com/rafalcurylo/jaeger
+cd jaeger
+az webapp create --resource-group myResourceGroup --plan myAppServicePlan --name <app_name> --multicontainer-config-type compose --multicontainer-config-file docker-compose.yml
+
+As suggested on google, I tried to isolate the problem bu running small portion of docer-compose.yml, but this was taking too much time and
+logs from appServices still were not much helpful.
+
+1. just client-server - run successfully
+az group create --name myResourceGroup --location "West Europe"
+az appservice plan create --name myAppServicePlan --resource-group myResourceGroup --sku S1 --is-linux
+git clone https://github.com/rafalcurylo/jaeger
+cd jaeger/jaxrsserver
+vi docker-compose.yml and change client exposed port to 80
+az webapp create --resource-group myResourceGroup --plan myAppServicePlan --name <app_name> --multicontainer-config-type compose --multicontainer-config-file docker-compose.yml
+
+This worked OK. I was able to access sever application:
+ http://simpleclientserver3.azurewebsites.net/jaxrs-server-4jaeger/resources/people

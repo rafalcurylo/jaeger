@@ -1,0 +1,41 @@
+How to run on Azure VM (ubuntu LTS). Based on https://docs.microsoft.com/en-us/azure/virtual-machines/linux/docker-compose-quickstart
+
+1. Create a VM: Ubuntu Server 18.04 LTS
+Basics: Authentication type:password
+Disks: OS Disk type: standard SSD
+Advanced: Cloud init: put:
+    #include https://get.docker.com
+
+2. once created, expose additional ports (Networking: Add inbound port rule) for 8080, 8081, 16686, e.g. for 8080
+
+Source port ranges: *
+Destination port ranges: 8080
+Priority: some unique value
+
+2. ssh to VM, in my case:
+ssh rafal@13.81.48.186
+
+3. install docker-compose
+sudo apt install docker-compose
+
+4. clone repo
+git clone https://github.com/rafalcurylo/jaeger.git
+
+5. run docker-compose
+cd jaeger
+sudo docker-compose up -d
+
+6. verify:
+verify REST server
+http://13.81.48.186:8081/jaxrs-server-4jaeger/resources/people
+
+verify client
+http://13.81.48.186:8080/jaxrs-client-4jaeger/index.jsp (static html)
+http://13.81.48.186:8080/jaxrs-client-4jaeger/resources/people (call server via REST)
+
+Run client /jaxrs-client-4jaeger/resources/people a few times to generate traces logs.
+
+verify jaeger-query
+http://13.81.48.186:16686/
+
+7. delete VM and resource group
