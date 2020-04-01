@@ -1,0 +1,14 @@
+version: '2'
+
+services:
+    
+    jaxrs-server:
+      image: rafalcurylo/jaxserver4jaeger:1.6
+      ports:
+        - "8081:8080"
+      
+    jaxrs-client:
+      image: rafalcurylo/jaxclient4jaeger:1.6
+      ports:
+        - "8080:8080"
+      

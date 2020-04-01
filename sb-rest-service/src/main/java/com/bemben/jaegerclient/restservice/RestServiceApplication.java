@@ -10,7 +10,7 @@ public class RestServiceApplication {
 
     public static void main(String[] args) {
         SpringApplication app = new SpringApplication(RestServiceApplication.class);
-        app.setDefaultProperties(Collections.singletonMap("server.port", "8083"));
+        app.setDefaultProperties(Collections.singletonMap("server.port", "9083"));
         app.run(args);
     }
 

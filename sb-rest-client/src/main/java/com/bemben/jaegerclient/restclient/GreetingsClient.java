@@ -17,7 +17,7 @@ public class GreetingsClient {
     public Greeting getAll() {
 
 
-    	final String uri = "http://sbrest-servise:8083/greeting?name=ApplicationClient";
+    	final String uri = "http://sbrest-servise:9083/greeting?name=ApplicationClient";
         
         RestTemplate restTemplate = new RestTemplate();
         Greeting result = restTemplate.getForObject(uri, Greeting.class);
