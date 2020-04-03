@@ -1,0 +1,58 @@
+version: '3.7'
+
+services:
+
+
+    # jaeger-agent:
+    #   image: jaegertracing/jaeger-agent:1.17.1
+    #   command: ["--reporter.grpc.host-port=jaeger-collector:14250"]
+    #   ports:
+    #     - "5775:5775/udp"
+    #     - "6831:6831/udp"
+    #     - "6832:6832/udp"
+    #     - "5778:5778"
+    #   restart: on-failure
+    #   depends_on:
+    #     - jaeger-collector
+
+    cassandra:
+      image: cassandra:3.9
+
+    cassandra-schema:
+      image: jaegertracing/jaeger-cassandra-schema:1.17.1
+      depends_on:
+        - cassandra
+    
+    jaeger-collector:
+      image: jaegertracing/jaeger-collector:1.17.1
+      command: ["--cassandra.keyspace=jaeger_v1_dc1", "--cassandra.servers=cassandra", "--collector.zipkin.http-port=9411"]
+      ports:
+        - "14269"
+        - "14268:14268"
+        - "14250"
+        - "9411:9411"
+      restart: on-failure
+      depends_on:
+        - cassandra-schema
+
+    jaeger-query:
+      image: jaegertracing/jaeger-query:1.17.1
+      command: ["--cassandra.keyspace=jaeger_v1_dc1", "--cassandra.servers=cassandra"]
+      ports:
+        - "16686:16686"
+        - "16687"
+      restart: on-failure
+      depends_on:
+        - cassandra-schema
+
+    
+    # http://localhost:8088/weatherforecast
+    dotnet-client:
+      image: tmargosiak/aspnet-app
+      ports:
+        - "8088:80"
+        - "8089:443"
+      links: 
+        - "jaeger-collector:collector"
+      depends_on:
+        - jaeger-collector
