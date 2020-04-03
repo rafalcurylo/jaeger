@@ -1,6 +1,11 @@
+RUNNING READY IMAGES FROM DOCKER-HUB
+
 1. run jeager
-cd jaeger
+cd jaeger (casandra, collector, query UI)
 docker-compose -f docker-compose-jaeger.yml up
+
+2.run agent and clients
+cs jaeger
 docker-compose -f docker-compose-sbclients.yml up
 
 2.test
@@ -9,18 +14,41 @@ http://localhost:9083/greeting?name=Test
 
 Client:
 http://localhost:9087/callgreeting
+___________________________________________________________________
 
+BUILDING OWN CLIENTS' IMAGES
+
+1. Run jaeger as in an example above.
+
+2. Creating own images of clients:
 
 Optionally you can build server and client application own docker image
-Please remember to change docker-compose.yml - change version number and remove repository prefix
+Please remember to change docker-compose-sbclients.yml - change version number and remove repository prefix
 
 cd jaeger/sb-rest-service
 mvn clean install
 docker image build -t sbrestservice4jaeger:X.Y .
 
-2. build client application and create a docker image
 cd jaeger/sb-rest-client
 mvn clean install
 docker image build -t sbrestclient4jaeger:X.Y .
 
-3
+3. Run clients docker-compose -f docker-compose-sbclients.yml up
+
+4. Test same as in an example above
+___________________________________________________________________
+RUNNING STANDALONE CLIENTS 
+
+1. Run jaeger as in an example above.
+
+2. Run agent as
+- standalone application (download binaries from yeager pages):
+jaeger-agent.exe --reporter.grpc.host-port localhost:14250
+OR
+- as a service in docker, use definition from  docker-compose-sbclients.yml file
+
+3. Run clients as java applications, change urls in TracingUtils classes and in GreetingClient class to localhost
+
+4. Test same as in an example above
+
+

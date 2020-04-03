@@ -19,8 +19,8 @@ public class TracingUtil {
         
         SenderConfiguration senderConfiguration = new SenderConfiguration()
                     .withAgentHost("jaeger-agent")
-                    .withAgentPort(5778)
-                    .withEndpoint("http://jaeger-collector:14268/api/traces");
+                    .withAgentPort(6831);
+                    //.withEndpoint("http://localhost:14268/api/traces");
                     //.withAuthToken(authToken)
                     //.withAuthUsername(authUsername)
                     //.withAuthPassword(authPassword);
