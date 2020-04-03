@@ -3,13 +3,13 @@ version: '2'
 services:
 
     sbrest-servise:
-      image: adambemben/sbrestservice4jaeger:1.3-alias
+      image: adambemben/sbrestservice4jaeger:1.5
       ports:
         - "9083:9083"
 
 
     sbrest-client:
-      image: adambemben/sbrestclient4jaeger:1.3-alias
+      image: adambemben/sbrestclient4jaeger:1.5
       ports:
         - "9087:9087"
       depends_on:

@@ -59,25 +59,4 @@ public class GreetingController {
 		return spanBuilder;
 	}
 	
-	/*@GetMapping("/greetingOld")
-	public Greeting greetingOld(@RequestParam(value = "name", defaultValue = "XXXX") String orderId) {
-		
-		Tracer tracer = TracingUtil.initTracer("Service");
-		
-		SpanBuilder builder = tracer.buildSpan("procesing order");
-		
-		Span span = builder.start();
-        
-        span.setTag("REST Communication", "Yes");
-        
-        span.log(System.currentTimeMillis(), "I'm processing received order");
-                
-        span.log(System.currentTimeMillis(), "I'm sending order back");
-        
-        span.finish();
-		
-        
-		return new Greeting(counter.incrementAndGet(), String.format(template, orderId));
-	}*/ 
-	
 }
