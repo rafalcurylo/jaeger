@@ -5,16 +5,17 @@ services:
     cassandra:
       image: cassandra:3.9
       networks:
-        - abb-net
+        - jaeger-net
 
     cassandra-schema:
       image: jaegertracing/jaeger-cassandra-schema:1.17.1
       networks:
-        - abb-net
+        - jaeger-net
       depends_on:
         - cassandra
     
     jaeger-collector:
+      container_name: collector
       image: jaegertracing/jaeger-collector:1.17.1
       command: ["--cassandra.keyspace=jaeger_v1_dc1", "--cassandra.servers=cassandra", "--collector.zipkin.http-port=9411"]
       ports:
@@ -23,7 +24,7 @@ services:
         - "14250"
         - "9411:9411"
       networks:
-        - abb-net        
+        - jaeger-net        
       restart: on-failure
       depends_on:
         - cassandra-schema
@@ -35,34 +36,12 @@ services:
         - "16686:16686"
         - "16687"
       networks:
-        - abb-net        
+        - jaeger-net        
       restart: on-failure
       depends_on:
         - cassandra-schema
 
-    
-    # http://localhost:8088/weatherforecast
-    dotnet-client:
-      image: tmargosiak/aspnet-app
-      ports:
-        - "8088:80"
-        - "8089:443"
-      networks:
-        - abb-net        
-      links: 
-        - "jaeger-collector:collector"
-        - "sbrest-service:adam"
-      depends_on:
-        - jaeger-collector
-
-    # http://localhost:8083/greeting?name=Test 
-    sbrest-service:
-      image: adambemben/sbrestservice4jaeger:1.5
-      ports:
-        - "9083:9083"
-      networks:
-        - abb-net
-
 networks: 
-  abb-net:
-    name: abb-jeager
+  jaeger-net:
+    driver: bridge
+    name: jeager-net

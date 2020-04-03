@@ -1,0 +1,37 @@
+version: '3.7'
+
+services:
+   
+    # http://localhost:8088/weatherforecast
+    dotnet-client:
+      container_name: dotnet-app
+      image: tmargosiak/aspnet-app
+      ports:
+        - "8088:80"
+        - "8089:443"
+      networks:
+        - client-net
+        - jeager-net
+      links: 
+        - "sbrest-service:adam"
+      external_links:
+        - "collector:collector"
+      depends_on:
+        - sbrest-service
+
+    # http://localhost:8083/greeting?name=Test 
+    sbrest-service:
+      container_name: java-backend
+      image: adambemben/sbrestservice4jaeger:1.5
+      ports:
+        - "9083:9083"
+      networks:
+        - client-net
+        - jeager-net
+
+networks: 
+  client-net:
+    driver: bridge
+    name: client-network
+  jeager-net:
+    external: true
