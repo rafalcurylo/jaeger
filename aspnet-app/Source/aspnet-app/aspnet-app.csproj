@@ -5,7 +5,7 @@
     <RootNamespace>aspnet_app</RootNamespace>
     <UserSecretsId>05c25d98-d246-43d6-bd2a-e386a8e21089</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-    <AssemblyVersion>2004.93.1410.15</AssemblyVersion>
+    <AssemblyVersion>2004.94.0854.18</AssemblyVersion>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 

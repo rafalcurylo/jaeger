@@ -54,5 +54,13 @@ services:
         - "8089:443"
       links: 
         - "jaeger-collector:collector"
+        - "sbrest-service:adam"
       depends_on:
         - jaeger-collector
+
+    # http://localhost:8083/greeting?name=Test 
+    sbrest-service:
+      image: adambemben/sbrestservice4jaeger:1.5
+      ports:
+        - "9083:9083"
+
